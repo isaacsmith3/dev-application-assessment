@@ -1,22 +1,9 @@
 import { blankPlan } from "../store/blankPlan"
-// import { client } from "@/utils/trpc-provider";
-// import { model, Schema } from "mongoose";
 import { create } from "zustand";
 
-// import { Plan } from "@repo/server/src/models/plan";
+const API_URL = 'http://localhost:3001';
 
-// type PlanStore = {
-//   currentPlan: Plan;
-//   setCurrentPlan: (plan: Plan) => void;
-//   plans: Plan[];
-//   getPlans: () => Plan[];
-//   setPlans: (plans: Plan[]) => void;
-//   createPlan: (plan: Plan) => void;
-//   updatePlan: (plan: Plan) => void;
-//   deletePlan: (plan: Plan) => Promise<void>;
-// };
-
-import plansData from "./plansData.json";
+import plansData from "../server/data.json";
 
 export const usePlanStore = create()((set, get) => ({
   currentPlan: blankPlan,
@@ -31,17 +18,16 @@ export const usePlanStore = create()((set, get) => ({
     set({ plans });
   },
   async createPlan(plan) {
-    // const response = await client.plan.create.mutate({
-    //   name: plan.name,
-    //   pill: plan.pill,
-    //   price: plan.price,
-    //   days: plan.days,
-    //   id: plan.id,
-    // });
-    // const planData = response;
-    // const newPlan = planData.plan;
 
-    const newPlan = plan;
+    const response = await fetch(`${API_URL}/plans`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(plan),
+    });
+
+    const newPlan = await response.json()
 
     set({ currentPlan: newPlan });
     let currentPlans = get().plans;
@@ -49,17 +35,14 @@ export const usePlanStore = create()((set, get) => ({
     set({ plans: currentPlans });
   },
   async updatePlan(plan) {
-    // const returnedPlan = (await client.plan.update.mutate({
-    //   name: plan.name,
-    //   pill: plan.pill,
-    //   price: plan.price,
-    //   days: plan.days,
-    //   id: plan.id,
-    // })) ;
-
-    // console.log(returnedPlan.id, returnedPlan._id);
-
-    const returnedPlan = plan;
+    const response = await fetch(`${API_URL}/plans/${plan.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(plan),
+    });
+    const returnedPlan = await response.json();
 
     const updatedPlan = {
       ...returnedPlan,
@@ -74,7 +57,9 @@ export const usePlanStore = create()((set, get) => ({
     return set({ plans: updatedPlans });
   },
   async deletePlan(plan) {
-    // await client.plan.delete.mutate({ id });
+    await fetch(`${API_URL}/plans/${plan.id}`, {
+      method: 'DELETE',
+    });
     set((state) => {
       const updatedPlans = state.plans.filter(
         (thePlan) => thePlan.id !== plan.id,

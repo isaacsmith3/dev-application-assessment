@@ -1,0 +1,30 @@
+[
+  {
+    "name": "foof",
+    "pill": "food",
+    "price": 69.99,
+    "days": 1,
+    "id": "01"
+  },
+  {
+    "name": "barasdf",
+    "pill": "food",
+    "price": 69.99,
+    "days": 30,
+    "id": "02"
+  },
+  {
+    "name": "baz",
+    "pill": "food",
+    "price": 69.9999,
+    "days": 180,
+    "id": "03"
+  },
+  {
+    "name": "fffhh",
+    "pill": "gff",
+    "price": 33,
+    "days": 21,
+    "id": "186"
+  }
+]
