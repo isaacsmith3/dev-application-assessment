@@ -9,45 +9,45 @@ const PORT = 3001;
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json());
 
-// Path to the JSON file where plans are stored
-const plansFilePath = path.join(__dirname, 'data.json');
+// Path to the JSON file where contacts are stored
+const contactFilePath = path.join(__dirname, 'data.json');
 
 // Read the data
-function getPlansData() {
-  const data = fs.readFileSync(plansFilePath);
+function getContactsData() {
+  const data = fs.readFileSync(contactFilePath);
   return JSON.parse(data);
 }
 
 // Write the data
-function savePlansData(plans) {
-  fs.writeFileSync(plansFilePath, JSON.stringify(plans, null, 2));
+function saveContactsData(plans) {
+  fs.writeFileSync(contactFilePath, JSON.stringify(plans, null, 2));
 }
 
 function generateRandomId() {
     let id;
-    const plans = getPlansData();
+    const contacts = getContactsData();
     do {
       id = (Math.floor(Math.random() * 1000) + 1).toString(); 
-    } while (plans.some(plan => plan.id === id));
+    } while (contacts.some(contact => contact.id === id));
     return id;
   }
 
-// GET all plans
+// GET all contacts
 app.get('/plans', (req, res) => {
-  const plans = getPlansData();
-  res.json(plans);
+  const contacts = getContactsData();
+  res.json(contacts);
 });
 
-// CREATE a new plan
+// CREATE a new contacts
 app.post('/plans', (req, res) => {
     try {
-      const newPlan = { ...req.body, id: generateRandomId() }; // Generate random ID
-      const plans = getPlansData();
+      const newContact = { ...req.body, id: generateRandomId() }; // Generate random ID
+      const contacts = getContactsData();
   
-      plans.push(newPlan);
-      savePlansData(plans);
+      contacts.push(newContact);
+      saveContactsData(contacts);
   
-      res.status(201).json(newPlan);
+      res.status(201).json(newContact);
     } catch (error) {
       res.status(500).json({ error: 'Failed to create plan' });
     }
@@ -56,22 +56,22 @@ app.post('/plans', (req, res) => {
 // UPDATE a plan
 app.put('/plans/:id', (req, res) => {
   const { id } = req.params;
-  const updatedPlan = req.body;
-  let plans = getPlansData();
+  const updatedContact = req.body;
+  let contacts = getContactsData();
 
-  plans = plans.map((plan) => (plan.id === id ? updatedPlan : plan));
-  savePlansData(plans);
+  contacts = contacts.map((contact) => (contact.id === id ? updatedContact : contact));
+  saveContactsData(contacts);
 
-  res.json(updatedPlan);
+  res.json(updatedContact);
 });
 
-// DELETE a plan
+// DELETE a contacts
 app.delete('/plans/:id', (req, res) => {
   const { id } = req.params;
-  let plans = getPlansData();
+  let contacts = getContactsData();
 
-  plans = plans.filter((plan) => plan.id !== id);
-  savePlansData(plans);
+  contacts = contacts.filter((contact) => contact.id !== id);
+  saveContactsData(contacts);
 
   res.status(204).send();
 });
