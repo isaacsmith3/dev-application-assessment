@@ -8,17 +8,17 @@ import { Button } from "@/components/ui/button";
 // import { toast } from "react-hot-toast";
 // import { useDebouncedCallback } from "use-debounce";
 
-import { blankPlan } from "../store/blankPlan";
+import { blankContact } from "../store/blankContact";
 import { usePlanStore } from "../store/contact";
 
-import PlanEditor from "../components/PlanEditor";
+import ContactEditor from "../components/ContactEditor";
 // import { Plan } from "@repo/server/src/models/plan";
 
 export default function Contacts() {
-  const { currentPlan, plans, setCurrentPlan, createPlan } = usePlanStore();
+  const { currentPlan, plans, setCurrentPlan } = usePlanStore();
   const [planSearch, setPlanSearch] = useState(plans);
-  const [searchBar, setSearchBar] = useState("");
-//   const [isDirty, setIsDirty] = useState(false);
+  // const [searchBar, setSearchBar] = useState("");
+  //   const [isDirty, setIsDirty] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -52,13 +52,13 @@ export default function Contacts() {
     //     </div>
     //   ));
     // } else {
-      for (let i = 0; i < plans.length; i++) {
-        if (plans[i].id === id) {
-          const updatedCurrentPlan = plans[i];
-          setCurrentPlan(updatedCurrentPlan);
+    for (let i = 0; i < plans.length; i++) {
+      if (plans[i].id === id) {
+        const updatedCurrentPlan = plans[i];
+        setCurrentPlan(updatedCurrentPlan);
         //   setIsDirty(false);
-        }
       }
+    }
     // }
   }
 
@@ -83,52 +83,51 @@ export default function Contacts() {
     //     </div>
     //   ));
     // } else {
-      const newPlan = blankPlan;
-      setCurrentPlan(newPlan);
+    const newPlan = blankContact;
+    setCurrentPlan(newPlan);
     //   setIsDirty(false);
     // }
   }
 
-//   const debounced = useDebouncedCallback((search) => {
-//     if (search != "") {
-//       let searchedPlans = [];
-//       for (let i = 0; i < plans.length; i++) {
-//         if (plans[i].name.toLowerCase().includes(search.toLowerCase())) {
-//           searchedPlans.push(plans[i]);
-//         }
-//       }
-//       setPlanSearch(searchedPlans);
-//     } else {
-//       setPlanSearch(plans);
-//     }
-//   }, 500);
+  //   const debounced = useDebouncedCallback((search) => {
+  //     if (search != "") {
+  //       let searchedPlans = [];
+  //       for (let i = 0; i < plans.length; i++) {
+  //         if (plans[i].name.toLowerCase().includes(search.toLowerCase())) {
+  //           searchedPlans.push(plans[i]);
+  //         }
+  //       }
+  //       setPlanSearch(searchedPlans);
+  //     } else {
+  //       setPlanSearch(plans);
+  //     }
+  //   }, 500);
 
-//   useEffect(() => {
-//     debounced(searchBar);
-//   }, [searchBar]);
+  //   useEffect(() => {
+  //     debounced(searchBar);
+  //   }, [searchBar]);
 
-//   useEffect(() => {
-//     if (!profile) {
-//       router.push("/");
-//     }
-//   }, []);
+  //   useEffect(() => {
+  //     if (!profile) {
+  //       router.push("/");
+  //     }
+  //   }, []);
 
-
-    return (
-      <>
-        <div className="mx-auto mt-5 max-w-[1400px] pb-10">
-          <div className="max grid grid-cols-[30%_70%] ">
-            <section className="flex flex-col gap-8 p-10">
-              <div className="flex items-center justify-between">
-                <h1 className="text-h1 text-3xl font-semibold">Plans</h1>
-                <button
-                  onClick={handleCreatePlan}
-                  className="text-h1 text-3xl text-white"
-                >
-                  +
-                </button>
-              </div>
-              {/* <label className="flex items-center gap-2 rounded border border-border p-1 pl-4">
+  return (
+    <>
+      <div className="mx-auto mt-5 max-w-[1400px] pb-10">
+        <div className="max grid grid-cols-[30%_70%] ">
+          <section className="flex flex-col gap-8 p-10">
+            <div className="flex items-center justify-between">
+              <h1 className="text-h1 text-3xl font-semibold">Contacts</h1>
+              <button
+                onClick={handleCreatePlan}
+                className="text-h1 text-4xl text-green-500 p-2"
+              >
+                +
+              </button>
+            </div>
+            {/* <label className="flex items-center gap-2 rounded border border-border p-1 pl-4">
                 <input
                   className="h-12 w-[100%]"
                   type="text"
@@ -139,31 +138,33 @@ export default function Contacts() {
                   }}
                 ></input>
               </label> */}
-              <div className="h-[60vh] w-60 p-2">
-                {planSearch.map((plan) => {
-                  return (
-                    <div>
-                      <Button
-                        key={plan.id}
-                        className={`border-1 mb-6 h-12 w-[100%] flex-shrink-0 rounded text-center text-black  hover:bg-[#b5bac0] ${currentPlan.id === plan.id ? "bg-[#cbd1d8]" : "bg-input"} bg-white`}
-                        onClick={() => handlePlanChange(plan.id)}
-                      >
-                        <div className="flex flex-row justify-start gap-4">
-                          <h3 className="">{plan.name}</h3>
-                        </div>
-                      </Button>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-            {currentPlan && (
-              <div className="h-[80vh] p-2">
-                <PlanEditor />
-              </div>
-            )}
-          </div>
+            <div className="h-[60vh] w-60 p-2">
+              {planSearch.map((plan) => {
+                return (
+                  <div>
+                    <Button
+                      key={plan.id}
+                      className={`border-1 mb-6 h-12 w-[100%] flex-shrink-0 rounded text-center text-black  hover:bg-[#b5bac0] ${
+                        currentPlan.id === plan.id ? "bg-[#cbd1d8]" : "bg-input"
+                      } bg-white`}
+                      onClick={() => handlePlanChange(plan.id)}
+                    >
+                      <div className="flex flex-row justify-start gap-4">
+                        <h3 className="">{plan.name}</h3>
+                      </div>
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+          {currentPlan && (
+            <div className="h-[80vh] p-2">
+              <ContactEditor />
+            </div>
+          )}
         </div>
-      </>
-    );
+      </div>
+    </>
+  );
 }

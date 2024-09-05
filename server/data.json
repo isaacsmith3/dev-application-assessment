@@ -1,30 +1,34 @@
 [
   {
-    "name": "foof",
-    "pill": "food",
-    "price": 69.99,
-    "days": 1,
+    "name": "foo",
+    "address": "Provo",
+    "number": "123",
+    "email": "foo@gmail.com",
+    "category": "orange",
     "id": "01"
   },
   {
-    "name": "barasdf",
-    "pill": "food",
-    "price": 69.99,
-    "days": 30,
+    "name": "bar",
+    "address": "Orem, UT",
+    "number": "456",
+    "email": "bar@gmail.com",
+    "category": "red",
     "id": "02"
   },
   {
     "name": "baz",
-    "pill": "food",
-    "price": 69.9999,
-    "days": 180,
+    "address": "Salt Lake",
+    "number": "7890",
+    "email": "baz@gmail.com",
+    "category": "blue",
     "id": "03"
   },
   {
-    "name": "fffhh",
-    "pill": "gff",
-    "price": 33,
-    "days": 21,
-    "id": "186"
+    "name": "Isaac Smith",
+    "address": "229",
+    "number": "92572",
+    "email": "iceman03@byu.edu",
+    "category": "navy",
+    "id": "921"
   }
 ]

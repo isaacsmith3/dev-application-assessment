@@ -1,12 +1,12 @@
-import { blankPlan } from "../store/blankPlan"
+import { blankContact } from "./blankContact";
 import { create } from "zustand";
 
-const API_URL = 'http://localhost:3001';
+const API_URL = "http://localhost:3001";
 
 import plansData from "../server/data.json";
 
 export const usePlanStore = create()((set, get) => ({
-  currentPlan: blankPlan,
+  currentPlan: blankContact,
   setCurrentPlan(plan) {
     set({ currentPlan: plan });
   },
@@ -18,16 +18,15 @@ export const usePlanStore = create()((set, get) => ({
     set({ plans });
   },
   async createPlan(plan) {
-
     const response = await fetch(`${API_URL}/plans`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(plan),
     });
 
-    const newPlan = await response.json()
+    const newPlan = await response.json();
 
     set({ currentPlan: newPlan });
     let currentPlans = get().plans;
@@ -36,9 +35,9 @@ export const usePlanStore = create()((set, get) => ({
   },
   async updatePlan(plan) {
     const response = await fetch(`${API_URL}/plans/${plan.id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(plan),
     });
@@ -52,20 +51,20 @@ export const usePlanStore = create()((set, get) => ({
     set({ currentPlan: updatedPlan });
     const currentPlans = get().plans;
     const updatedPlans = currentPlans.map((p) =>
-      p.id === updatedPlan.id ? updatedPlan : p,
+      p.id === updatedPlan.id ? updatedPlan : p
     );
     return set({ plans: updatedPlans });
   },
   async deletePlan(plan) {
     await fetch(`${API_URL}/plans/${plan.id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
     set((state) => {
       const updatedPlans = state.plans.filter(
-        (thePlan) => thePlan.id !== plan.id,
+        (thePlan) => thePlan.id !== plan.id
       );
       return { plans: updatedPlans };
     });
   },
 }));
-export { blankPlan };
+

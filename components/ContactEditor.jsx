@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 // import { Plan } from "@repo/server/src/models/plan";
 import { usePlanStore } from "../store/contact";
-import { blankPlan } from "../store/blankPlan";
+import { blankContact } from "../store/blankContact";
 
 // type handleChangeType = (
 //   name: string,
@@ -18,7 +18,7 @@ import { blankPlan } from "../store/blankPlan";
 //   setIsDirty: (isDirty: boolean) => void;
 // }
 
-const PlanEditor = () => {
+const ContactEditor = () => {
   const { currentPlan, setCurrentPlan, updatePlan, deletePlan, createPlan } =
     usePlanStore();
 
@@ -35,14 +35,15 @@ const PlanEditor = () => {
   const handleSubmit = () => {
     const updatedCurrentPlan = {
       ...currentPlan,
-      price: parseFloat(currentPlan.price.toString()),
-      days: parseFloat(currentPlan.days.toString()),
+      // price: parseFloat(currentPlan.price.toString()),
+      // days: parseFloat(currentPlan.days.toString()),
     };
     if (
-      updatedCurrentPlan.name.toString().trim() === "" ||
-      updatedCurrentPlan.pill.toString().trim() === "" ||
-      isNaN(updatedCurrentPlan.price) ||
-      isNaN(updatedCurrentPlan.days)
+      true
+      // updatedCurrentPlan.name.toString().trim() === "" ||
+      // updatedCurrentPlan.pill.toString().trim() === "" ||
+      // isNaN(updatedCurrentPlan.price) ||
+      // isNaN(updatedCurrentPlan.days)
     ) {
       if (isNaN(updatedCurrentPlan.price) || isNaN(updatedCurrentPlan.days)) {
         // toast.custom((t) => (
@@ -78,7 +79,7 @@ const PlanEditor = () => {
         //   </div>
         // ));
       }
-      return;
+      // return;
     }
 
     setCurrentPlan(updatedCurrentPlan);
@@ -94,7 +95,7 @@ const PlanEditor = () => {
     } else {
       try {
         createPlan(newPlan);
-        setCurrentPlan(blankPlan);
+        setCurrentPlan(blankContact);
         // toast.success("Plan Created");
       } catch (error) {
         // toast.error(error.message);
@@ -111,8 +112,8 @@ const PlanEditor = () => {
     //       <Button
     //         onClick={() => {
     //           try {
-    //             deletePlan(currentPlan);
-    //             setCurrentPlan(blankPlan);
+    deletePlan(currentPlan);
+    setCurrentPlan(blankContact);
     //             toast.dismiss(t.id);
     //             toast.success("Plan successfully deleted");
     //           } catch (error) {
@@ -131,9 +132,9 @@ const PlanEditor = () => {
   return (
     <div className="gap-12 p-8">
       <h1 className="text-h1 mb-8 text-center text-3xl font-semibold">
-        {currentPlan.id ? "Edit Plan" : "New Plan"}
+        {currentPlan.id ? "Edit Contact" : "New Contact"}
       </h1>
-      <div className="flex flex-col items-center justify-center gap-8">
+      <div className="flex flex-col items-center justify-center gap-8 w-88">
         <div className="flex w-72 flex-row items-center justify-between">
           <h2 className="text-h2 text-xl font-semibold">Name:</h2>
           <Input
@@ -143,37 +144,48 @@ const PlanEditor = () => {
           />
         </div>
         <div className="flex w-72 flex-row items-center justify-between">
-          <h2 className="text-h2 text-xl font-semibold">Pill:</h2>
+          <h2 className="text-h2 text-xl font-semibold">Adr:</h2>
           <Input
-            placeholder="Pill"
-            value={currentPlan.pill}
-            handleChange={handleChange("pill")}
+            placeholder="Address"
+            value={currentPlan.address}
+            handleChange={handleChange("address")}
           />
         </div>
         <div className="flex w-72 flex-row items-center justify-between">
-          <h2 className="text-h2 text-xl font-semibold">Price:</h2>
+          <h2 className="text-h2 text-xl font-semibold">#:</h2>
           <Input
-            placeholder="Price"
-            value={currentPlan.price.toString()}
-            handleChange={handleChange("price")}
+            placeholder="Phone Number"
+            value={currentPlan.number}
+            // value={currentPlan.price.toString()}
+            handleChange={handleChange("number")}
           />
         </div>
         <div className="flex w-72 flex-row items-center justify-between">
-          <h2 className="text-h2 text-xl font-semibold">Days:</h2>
+          <h2 className="text-h2 text-xl font-semibold">Email:</h2>
           <Input
-            placeholder="Days"
-            value={currentPlan.days.toString()}
-            handleChange={handleChange("days")}
+            placeholder="Email"
+            value={currentPlan.email}
+            // value={currentPlan.days.toString()}
+            handleChange={handleChange("email")}
+          />
+        </div>
+        <div className="flex w-72 flex-row items-center justify-between">
+          <h2 className="text-h2 text-xl font-semibold">Cat:</h2>
+          <Input
+            placeholder="Category"
+            value={currentPlan.category}
+            // value={currentPlan.days.toString()}
+            handleChange={handleChange("category")}
           />
         </div>
         <Button className="w-72" onClick={handleSubmit}>
-          {currentPlan.id ? "Update Plan" : "Create Plan"}
+          {currentPlan.id ? "Update Contact" : "Create Contact"}
         </Button>
         <Button
           className="w-72 bg-[#fa5252] hover:bg-[#f03e3e]"
           onClick={handleShowConfirm}
         >
-          Delete Plan
+          Delete Contact
         </Button>
       </div>
     </div>
@@ -191,4 +203,4 @@ const Input = ({ value, placeholder, handleChange }) => {
   );
 };
 
-export default PlanEditor;
+export default ContactEditor;

@@ -1,38 +1,35 @@
 const express = require('express');
-const cors = require('cors'); // Import cors
+const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
-
 
 const app = express();
 const PORT = 3001;
 
-// Middleware
 app.use(cors()); // Enable CORS for all routes
-app.use(express.json()); // Use express's built-in body-parser
+app.use(express.json());
 
 // Path to the JSON file where plans are stored
 const plansFilePath = path.join(__dirname, 'data.json');
 
-// Helper function to read the plans data
+// Read the data
 function getPlansData() {
   const data = fs.readFileSync(plansFilePath);
   return JSON.parse(data);
 }
 
-// Helper function to write the plans data
+// Write the data
 function savePlansData(plans) {
   fs.writeFileSync(plansFilePath, JSON.stringify(plans, null, 2));
 }
 
-// Generate a random id (helper function)
 function generateRandomId() {
     let id;
     const plans = getPlansData();
     do {
-      id = Math.floor(Math.random() * 1000) + 1; // Random number between 1 and 1000
-    } while (plans.some(plan => plan.id === id)); // Ensure ID is unique
-    return id.toString();
+      id = (Math.floor(Math.random() * 1000) + 1).toString(); 
+    } while (plans.some(plan => plan.id === id));
+    return id;
   }
 
 // GET all plans
