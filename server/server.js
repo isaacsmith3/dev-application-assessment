@@ -19,8 +19,8 @@ function getContactsData() {
 }
 
 // Write the data
-function saveContactsData(plans) {
-  fs.writeFileSync(contactFilePath, JSON.stringify(plans, null, 2));
+function saveContactsData(contacts) {
+  fs.writeFileSync(contactFilePath, JSON.stringify(contacts, null, 2));
 }
 
 function generateRandomId() {
@@ -33,13 +33,13 @@ function generateRandomId() {
   }
 
 // GET all contacts
-app.get('/plans', (req, res) => {
+app.get('/contacts', (req, res) => {
   const contacts = getContactsData();
   res.json(contacts);
 });
 
 // CREATE a new contact
-app.post('/plans', (req, res) => {
+app.post('/contacts', (req, res) => {
     try {
       const newContact = { ...req.body, id: generateRandomId() }; // Generate random ID
       const contacts = getContactsData();
@@ -49,12 +49,12 @@ app.post('/plans', (req, res) => {
   
       res.status(201).json(newContact);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to create plan' });
+      res.status(500).json({ error: 'Failed to create contact' });
     }
   });
 
 // UPDATE a contact
-app.put('/plans/:id', (req, res) => {
+app.put('/contacts/:id', (req, res) => {
   const { id } = req.params;
   const updatedContact = req.body;
   let contacts = getContactsData();
@@ -66,7 +66,7 @@ app.put('/plans/:id', (req, res) => {
 });
 
 // DELETE a contact
-app.delete('/plans/:id', (req, res) => {
+app.delete('/contacts/:id', (req, res) => {
   const { id } = req.params;
   let contacts = getContactsData();
 

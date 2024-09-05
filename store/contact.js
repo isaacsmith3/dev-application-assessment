@@ -18,7 +18,7 @@ export const useContactStore = create()((set, get) => ({
     set({ contacts: contacts });
   },
   async createContact(contact) {
-    const response = await fetch(`${API_URL}/plans`, {
+    const response = await fetch(`${API_URL}/contacts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export const useContactStore = create()((set, get) => ({
     set({ contacts: currentContacts });
   },
   async updateContact(contact) {
-    const response = await fetch(`${API_URL}/plans/${contact.id}`, {
+    const response = await fetch(`${API_URL}/contacts/${contact.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -49,14 +49,14 @@ export const useContactStore = create()((set, get) => ({
     };
 
     set({ currentContact: updatedContact });
-    const currentContacts = get().plans;
-    const updatedPlans = currentContacts.map((p) =>
+    const currentContacts = get().contacts;
+    const updatedContacts = currentContacts.map((p) =>
       p.id === updatedContact.id ? updatedContact : p
     );
-    return set({ contacts: updatedPlans });
+    return set({ contacts: updatedContacts });
   },
   async deleteContact(contact) {
-    await fetch(`${API_URL}/plans/${contact.id}`, {
+    await fetch(`${API_URL}/contacts/${contact.id}`, {
       method: "DELETE",
     });
     set((state) => {
