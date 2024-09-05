@@ -6,7 +6,7 @@ const path = require('path');
 const app = express();
 const PORT = 3001;
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors());
 app.use(express.json());
 
 // Path to the JSON file where contacts are stored
@@ -38,7 +38,7 @@ app.get('/plans', (req, res) => {
   res.json(contacts);
 });
 
-// CREATE a new contacts
+// CREATE a new contact
 app.post('/plans', (req, res) => {
     try {
       const newContact = { ...req.body, id: generateRandomId() }; // Generate random ID
@@ -53,7 +53,7 @@ app.post('/plans', (req, res) => {
     }
   });
 
-// UPDATE a plan
+// UPDATE a contact
 app.put('/plans/:id', (req, res) => {
   const { id } = req.params;
   const updatedContact = req.body;
@@ -65,7 +65,7 @@ app.put('/plans/:id', (req, res) => {
   res.json(updatedContact);
 });
 
-// DELETE a contacts
+// DELETE a contact
 app.delete('/plans/:id', (req, res) => {
   const { id } = req.params;
   let contacts = getContactsData();

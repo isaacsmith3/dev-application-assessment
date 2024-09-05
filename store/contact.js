@@ -3,68 +3,67 @@ import { create } from "zustand";
 
 const API_URL = "http://localhost:3001";
 
-import plansData from "../server/data.json";
+import contactsData from "../server/data.json";
 
-export const usePlanStore = create()((set, get) => ({
-  currentPlan: blankContact,
-  setCurrentPlan(plan) {
-    set({ currentPlan: plan });
+export const useContactStore = create()((set, get) => ({
+  currentContact: blankContact,
+  setCurrentContact(contact) {
+    set({ currentContact: contact });
   },
-  plans: plansData,
-  getPlans() {
-    return this.plans;
+  contacts: contactsData,
+  getContacts() {
+    return this.contacts;
   },
-  setPlans(plans) {
-    set({ plans });
+  setContacts(contacts) {
+    set({ contacts: contacts });
   },
-  async createPlan(plan) {
+  async createContact(contact) {
     const response = await fetch(`${API_URL}/plans`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(plan),
+      body: JSON.stringify(contact),
     });
 
-    const newPlan = await response.json();
+    const newContact = await response.json();
 
-    set({ currentPlan: newPlan });
-    let currentPlans = get().plans;
-    currentPlans.push(newPlan);
-    set({ plans: currentPlans });
+    set({ currentContact: newContact });
+    let currentContacts = get().contacts;
+    currentContacts.push(newContact);
+    set({ contacts: currentContacts });
   },
-  async updatePlan(plan) {
-    const response = await fetch(`${API_URL}/plans/${plan.id}`, {
+  async updateContact(contact) {
+    const response = await fetch(`${API_URL}/plans/${contact.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(plan),
+      body: JSON.stringify(contact),
     });
-    const returnedPlan = await response.json();
+    const returnedContact = await response.json();
 
-    const updatedPlan = {
-      ...returnedPlan,
-      id: returnedPlan.id ?? returnedPlan._id,
+    const updatedContact = {
+      ...returnedContact,
+      id: returnedContact.id ?? returnedContact._id,
     };
 
-    set({ currentPlan: updatedPlan });
-    const currentPlans = get().plans;
-    const updatedPlans = currentPlans.map((p) =>
-      p.id === updatedPlan.id ? updatedPlan : p
+    set({ currentContact: updatedContact });
+    const currentContacts = get().plans;
+    const updatedPlans = currentContacts.map((p) =>
+      p.id === updatedContact.id ? updatedContact : p
     );
-    return set({ plans: updatedPlans });
+    return set({ contacts: updatedPlans });
   },
-  async deletePlan(plan) {
-    await fetch(`${API_URL}/plans/${plan.id}`, {
+  async deleteContact(contact) {
+    await fetch(`${API_URL}/plans/${contact.id}`, {
       method: "DELETE",
     });
     set((state) => {
-      const updatedPlans = state.plans.filter(
-        (thePlan) => thePlan.id !== plan.id
+      const updatedContacts = state.contacts.filter(
+        (theContact) => theContact.id !== contact.id
       );
-      return { plans: updatedPlans };
+      return { contacts: updatedContacts };
     });
   },
 }));
-
